@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feliz cumple!!!!!</title>
+  <link rel="icon" type="image/png" href="assets/heart.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+  <div class="bg-video">
+    <video src="https://github.com/GABjTDev/liz-hpbir/releases/download/video/kamisama.mp4" id="video1" muted></video>
+    <div class="overlay"></div>
+  </div>
+
+  <div class="card-video">
+    <video src="https://github.com/GABjTDev/liz-hpbir/releases/download/video/kamisama.mp4" id="video2" volume="1"></video>
+  </div>
+
+  <div class="body-text">
+    <div class="float-container">
+      <h1 class="float-text">
+        <span>F</span><span>e</span><span>l</span><span>i</span><span>z</span>
+        <span>C</span><span>u</span><span>m</span><span>p</span><span>l</span><span>e</span>
+      </h1>
+    </div>
+
+    <div class="card-container">
+      <div class="message-container">
+        <h2>¡Feliz cumpleaños! 💖</h2>
+        <p>Te queria regalar algo mas bonito, pero aun no soy muy pro para progamar lo que tenia en mente, se me ocurrio regalarte algo relacionado a tu anime fav asi que espero que te guste el detallito de traer cosas que vimos juntitos.</p>
+        <p>Disfruto todo lo que hacemos en discord y dormir juntos todas las noches contigo, tenemos que seguir aprendiendo a programar juntitos y a ver mas animes ASIES.💕</p>
+        <p>Espero prontito pueda viajar a Costa Rica para pasear y tomarnos muchas fotitos.💖</p>
+        <p>Me haces sentir tan afortunado de pasar tiempo contigo tu amor, tu sonrisa y tu alegría hacen que mis dias sean mucho mejor.</p>
+        <p>Estoy emocionado de compartir muchos más momentos increíbles contigo, siempre creciendo juntos y apoyándonos en cada paso.</p>
+        <p>¡Feliz cumpleaños, mi reina te amo! 🎉🎂💕</p>
+      </div>
+    </div>
+  </div>
+
+  <button id="play-button" class="play-button">
+    <img src="./assets/icon.png"/>
+  </button>
+
+  <div class="progress-container">
+    <div class="progress-bar" id="progress-bar">
+        <div class="progress-fill" id="progress-fill"></div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+
+      // Selecciona los elementos de video, la barra de progreso y el botón de play
+      const video1 = document.getElementById("video1");
+      const video2 = document.getElementById("video2");
+      const progressBar = document.getElementById("progress-bar");
+      const progressFill = document.getElementById("progress-fill");
+      const playButton = document.getElementById("play-button");
+       // Variable para almacenar el identificador del setInterval
+      let confettiInterval;
+
+      // Iniciar el confetti infinito
+      function startConfetti() {
+        confettiInterval = setInterval(generateConfetti, 500); // Guardar el identificador del intervalo
+      }
+
+      // Detener el confetti
+      function stopConfetti() {
+        clearInterval(confettiInterval); // Detener el intervalo
+      }
+
+      // Función para reproducir o pausar ambos videos
+      function togglePlayPause() {
+          if (video1.paused) {
+              video1.play();
+              video2.play();
+              startConfetti();
+          } else {
+              video1.pause();
+              video2.pause();
+              stopConfetti();
+          }
+      }
+
+      // Control de la barra de progreso (al hacer clic en la barra)
+      progressBar.addEventListener("click", (e) => {
+          const clickPosition = e.offsetX / progressBar.offsetWidth; // Obtiene la posición del clic
+          const newTime = clickPosition * video1.duration; // Calcula el nuevo tiempo en el video
+
+          video1.currentTime = newTime;
+          video2.currentTime = newTime;
+      });
+
+      // Sincroniza los tiempos de ambos videos
+      function syncVideos() {
+          const currentTime = video1.currentTime;
+          video2.currentTime = currentTime;
+      }
+
+      // Actualiza la barra de progreso en función del tiempo de los videos
+      function updateProgressBar() {
+          const duration = video1.duration;
+          const currentTime = video1.currentTime;
+          const progressPercentage = (currentTime / duration) * 100;
+          progressFill.style.width = `${progressPercentage}%`;
+      }
+
+      // Evento de actualización de tiempo de video1
+      video1.addEventListener("timeupdate", () => {
+          syncVideos();
+          updateProgressBar();
+      });
+
+      // Botón de Play/Pausa
+      playButton.addEventListener("click", togglePlayPause);
+
+      // Sincroniza reproducción y pausa entre ambos videos
+      video1.addEventListener("play", () => video2.play());
+      video1.addEventListener("pause", () => video2.pause());
+      video2.addEventListener("play", () => video1.play());
+      video2.addEventListener("pause", () => video1.pause());
+
+      // Función que genera el confetti
+      function generateConfetti() {
+        confetti({
+          particleCount: 80,   // Número de partículas
+          spread: 70,           // Ángulo de dispersión
+          origin: { x: Math.random(), y: Math.random() }, // Origen aleatorio
+          colors: ['#ff99cc', '#ff66b2', '#ff3399', '#ff66cc', '#ffb3d9'],
+          gravity: 0.5,         // Gravedad
+        });
+      }
+    })
+  </script>
+</body>
+</html>
